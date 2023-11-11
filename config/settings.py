@@ -79,8 +79,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'akex',
+        'NAME': 'akex',
+        'USER': 'postgres',
         'PASSWORD': '0406'
     }
 }
