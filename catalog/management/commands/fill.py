@@ -1,24 +1,33 @@
+import json
+
 from django.core.management import BaseCommand
 
-from catalog.models import Category
+from catalog.models import Product, Category
+from config.settings import BASE_DIR
 
 
 class Command(BaseCommand):
-    help = 'Clear data in the database'
-    def handle(self, *args, **options):
-        Category.objects.all().delete()
-        category_list = [
-            {'name': 'название1', 'description': 'описание1'},
-            {'name': 'название2', 'description': 'описание2'}
+    filename = f'{BASE_DIR}\data.json'
 
-        ]
-        category_for_create = []
-        for category_item in category_list:
-            category_for_create.append(
-                Category(**category_item)
+    @staticmethod
+    def read_json():
+        with open(Command.filename, 'r', encoding='utf-8') as file:
+            product_list = json.load(file)
+        return product_list
+
+    def handle(self, *args, **kwargs):
+        Product.objects.all().delete()
+        product_for_create = []
+        for product in Command.read_json():
+             #Product.objects.create(name=product['fields']['name'],
+                                    #description=product['fields']['description'],
+                                    #category=Category.objects.get(pk=product['fields']['category']),
+                                    #price=product['fields']['price'])
+
+             product_for_create.append(
+            Product(name=product['fields']['name'],
+                        description=product['fields']['description'],
+                        category_id=str(product['fields']['category']),
+                        price=product['fields']['price'])
             )
-        Category.objects.bulk_create(category_for_create)
-        self.stdout.write(self.style.SUCCESS('Data clear successfully.'))
-
-
-
+        Product.objects.bulk_create(product_for_create)
