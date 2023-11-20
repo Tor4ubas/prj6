@@ -1,7 +1,4 @@
 from django.shortcuts import render
-
-
-# Create your views here.
 def contacts(request):
     #if request.method == 'POST':
         #name = request.POST.get('name')
