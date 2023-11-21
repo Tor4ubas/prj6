@@ -1,6 +1,8 @@
 from django.core.management import BaseCommand
 from catalog.models import Category, Product
 from datetime import date
+import os
+from django.conf import settings
 
 
 class Command(BaseCommand):
@@ -9,27 +11,70 @@ class Command(BaseCommand):
         Product.objects.all().delete()
 
         category_list = [
-            {'name': 'Категория 1', 'description': 'описание1'},
-            {'name': 'Категория 2', 'description': 'описание2'}
+            {'name': 'Ноутбуки', 'description': 'Компьютеры'},
+            {'name': 'Смартфоны', 'description': 'Мобильные устройства'},
+            {'name': 'Телевизоры', 'description': 'Телевизоры'},
+            {'name': 'Кофемашины', 'description': 'Бытовая техника'},
+            {'name': 'Фитнес-трекеры', 'description': 'Гаджеты'},
+
         ]
 
-
-        for category_item in category_list:
-            category = Category.objects.create(**category_item)
-            self.stdout.write(self.style.SUCCESS(f'Created category: {category.name}'))
+        Category.objects.bulk_create([Category(**category_item) for category_item in category_list])
+        self.stdout.write(self.style.SUCCESS(f'Created {len(category_list)} categories.'))
 
         products_list = [
-            {'name': 'Продукт 1', 'description': 'Описание продукта 1', 'category': 'Категория 1', 'price': 100,
-             'date_created': date.today()},
-            {'name': 'Продукт 2', 'description': 'Описание продукта 2', 'category': 'Категория 2', 'price': 200,
-             'date_created': date.today()},
+            {
+                "name": "Ноутбук Lenovo ThinkPad",
+                "description": "Мощный ноутбук серии ThinkPad от Lenovo.",
+                "photo": "product/lenovo_thinkpad.jpg",
+                "category": "Ноутбуки",
+                "price": 1500,
+                "date_created": "2022-01-01",
+                "date_updated": "2022-01-10"
+            },
+            {
+                "name": "Смартфон iPhone 12",
+                "description": "Популярный смартфон от Apple с передовыми технологиями.",
+                "photo": "product/iphone_12.jpg",
+                "category": "Смартфоны",
+                "price": 1000,
+                "date_created": "2022-02-01",
+                "date_updated": "2022-02-15"
+            },
+            {
+                "name": "Телевизор Samsung QLED",
+                "description": "Высококачественный телевизор с технологией QLED от Samsung.",
+                "photo": "product/samsung_qled.jpg",
+                "category": "Телевизоры",
+                "price": 2000,
+                "date_created": "2022-03-01",
+                "date_updated": "2022-03-20"
+            },
+            {
+                "name": "Кофемашина DeLonghi Magnifica",
+                "description": "Автоматическая кофемашина для приготовления вкусного кофе.",
+                "photo": "product/delonghi_magnifica.jpg",
+                "category": "Кофемашины",
+                "price": 500,
+                "date_created": "2022-04-01",
+                "date_updated": "2022-04-10"
+            },
+            {
+                "name": "Фитнес-трекер Fitbit Charge 4",
+                "description": "Умный фитнес-трекер для отслеживания активности и здоровья.",
+                "photo": "product/fitbit_charge_4.jpg",
+                "category": "Фитнес-трекеры",
+                "price": 150,
+                "date_created": "2022-05-01",
+                "date_updated": "2022-05-05"
+            }
+
 
         ]
 
-        for product_item in products_list:
-            category = Category.objects.get(name=product_item['category'])
-            product_item['category'] = category
-            product = Product.objects.create(**product_item)
-            self.stdout.write(self.style.SUCCESS(f'Created product: {product.name}'))
+        categories = {category.name: category for category in Category.objects.all()}
+        products = [Product(name=product_item['name'], description=product_item['description'], category=categories[product_item['category']], price=product_item['price'], date_created=product_item['date_created']) for product_item in products_list]
+        Product.objects.bulk_create(products)
+        self.stdout.write(self.style.SUCCESS(f'Created {len(products_list)} products.'))
 
         self.stdout.write(self.style.SUCCESS('Database has been filled with categories and products.'))

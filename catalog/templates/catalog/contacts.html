@@ -29,7 +29,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-12">
+
+           <div class="col-md-6 offset-md-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">Свяжитесь с нами</h4>
@@ -37,7 +38,7 @@
                 <div class="card-body">
                     <form method="post" action="" class="form-floating">
                         {% csrf_token %}
-                        <div class="mb-12">
+                        <div class="mb-3">
                             <label for="name">Имя</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя" required>
                         </div>
@@ -49,11 +50,13 @@
                             <label for="message">Сообщение</label>
                             <textarea type="text" name="message" class="form-control" id="message" placeholder="" required></textarea>
                         </div>
+                        <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Отправить</button>
                     </form>
-                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Отправить</button>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
+
 {% endblock %}
