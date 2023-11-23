@@ -10,12 +10,12 @@
 </head>
 <body>
     <h1>{{ product.name }}</h1>
-    <p><strong>Description:</strong> {{ product.description }}</p>
-    <p><strong>Category:</strong> {{ product.category.name }}</p>
-    <p><strong>Price:</strong> ${{ product.price }}</p>
-    <p><strong>Date Created:</strong> {{ product.date_created }}</p>
-    <p><strong>Date Updated:</strong> {{ product.date_updated }}</p>
-    <img src="{{ product.image|mediapath }}" width="300" height="200">
+    <p><strong>Описание:</strong> {{ product.description }}</p>
+    <p><strong>Категория:</strong> {{ product.category.name }}</p>
+    <p><strong>Стоимость:</strong> ${{ product.price }}</p>
+    <p><strong>Дата создания:</strong> {{ product.date_created }}</p>
+    <p><strong>Дата обновления:</strong> {{ product.date_updated }}</p>
+    <img src="{{ product.img|mediapath }}" width="300" height="200">
 </body>
 </html>
 
