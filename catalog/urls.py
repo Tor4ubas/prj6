@@ -2,14 +2,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 
-from catalog import views
-from catalog.apps import CatalogConfig
+from .views import ContactsView, CatalogListView, ProductDetailView
 
-app_name = CatalogConfig.name
 
+app_name = 'catalog'
 
 urlpatterns = [
-    path('', views.catalog_list, name='catalog_list'),
-    path('product/<int:product_id>/', views.product_detail, name='product_detail'),
-    path('contacts/', views.contacts, name='contacts'),
-   ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', CatalogListView.as_view(), name='catalog_list'),
+    path('contacts/', ContactsView.as_view(), name='contacts'),
+    path('catalog/', CatalogListView.as_view(), name='catalog_list'),
+    path('product/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

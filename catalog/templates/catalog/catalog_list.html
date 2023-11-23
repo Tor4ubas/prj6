@@ -16,7 +16,7 @@
               <li>дата создания: {{product.date_created}}</li>
               <li>Дата последнего изменения: {{product.date_updated}}</li>
             </ul>
-              <a href="{% url 'catalog:product_detail' product_id=product.id %}" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
+              <a href="{% url 'catalog:product_detail' pk=product.id %}" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
             </div>
         </div>
    </div>
