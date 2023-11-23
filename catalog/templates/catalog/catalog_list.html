@@ -1,23 +1,23 @@
 {% extends 'catalog/home.html'%}
 
 {% block content %}
-{% for object in object_list%}
+{% for product in products %}
    <div class="col">
         <div class="card mb-4 rounded-3 shadow-sm">
           <div class="card-header py-3">
             <h4 class="my-0 fw-normal">в наличии</h4>
           </div>
           <div class="card-body">
-            <h1 class="card-title pricing-card-title">${{object.price}}<small class="text-muted fw-light">/шт</small></h1>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li>{{object.name}}</li>
-              <li>{{object.description|truncatechars:100}}</li>
-              <li>{{object.category}}</li>
-              <li>дата создания: {{object.date_created}}</li>
-              <li>Дата последнего изменения: {{object.date_updated}}</li>
+            <h1 class="card-title pricing-card-title">${{product.price}}<small class="text-muted fw-light">/шт</small>
+                </h1><ul class="list-unstyled mt-3 mb-4">
+              <li>{{product.name}}</li>
+              <li>{{product.description|truncatechars:100}}</li>
+              <li>{{product.category}}</li>
+              <li>дата создания: {{product.date_created}}</li>
+              <li>Дата последнего изменения: {{product.date_updated}}</li>
             </ul>
-            <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
-          </div>
+              <a href="{{% url 'catalog:product_detail' product_id=product.id %}}" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
+            </div>
         </div>
    </div>
 {% endfor %}

@@ -1,7 +1,8 @@
 from django import template
+from django.templatetags.static import static
 
 register = template.Library()
 
 @register.filter
-def mediapath(value):
-    return f"/media/{value}"
+def mediapath(file_path):
+    return static(file_path)

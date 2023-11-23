@@ -1,10 +1,10 @@
 <!-- product_detail.html -->
-{% extends 'catalog/home.html'%}
 
-{% block content %}
 
 <!DOCTYPE html>
+
 <html>
+{% load mediapath %}
 <head>
     <title>Product Detail</title>
 </head>
@@ -15,8 +15,7 @@
     <p><strong>Price:</strong> ${{ product.price }}</p>
     <p><strong>Date Created:</strong> {{ product.date_created }}</p>
     <p><strong>Date Updated:</strong> {{ product.date_updated }}</p>
-    <img src="{{ product.photo|mediapath }}" alt="{{ product.name }}" width="300" height="200">
+    <img src="{{ product.image|mediapath }}" width="300" height="200">
 </body>
 </html>
 
-{% endblock %}
