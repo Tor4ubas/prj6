@@ -18,7 +18,6 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-
     name = models.CharField(max_length=150, verbose_name='Наименование')
     description = models.TextField(**NULLABLE, verbose_name='Описание')
     img = models.ImageField(upload_to='product/', **NULLABLE, verbose_name='Фото')
@@ -27,13 +26,23 @@ class Product(models.Model):
     date_created = models.DateField(**NULLABLE, verbose_name='Дата создания')
     date_updated = models.DateField(**NULLABLE, verbose_name='Дата последнего изменения')
 
-
     def __str__(self):
         return f'{self.name} {self.description} {self.category} {self.price}'
 
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    version_number = models.CharField(max_length=50)
+    version_name = models.CharField(max_length=100)
+    is_current = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'catalog_version'
+
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=100)

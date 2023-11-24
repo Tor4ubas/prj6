@@ -2,6 +2,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
+from .forms import ProductForm
 
 from .models import BlogPost
 
@@ -11,6 +12,9 @@ from catalog.models import Product
 class ContactsView(View):
     def get(self, request):
         return render(request, 'catalog/contacts.html')
+
+def get(request):
+    return render(request, 'catalog/contacts.html')
 
 
 class CatalogListView(ListView):
@@ -29,12 +33,18 @@ class ProductDetailView(DetailView):
         context['product_detail_url'] = self.request.path
         return context
 
-def ProductCreateView(CreateView):
-    pass
 
+def create_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('product_list')
+    else:
+        form = ProductForm()
 
-def ProductUpdateView(UpdateView):
-    pass
+    return render(request, 'create_product.html', {'form': form})
+
 
 class BlogPostListView(ListView):
     model = BlogPost

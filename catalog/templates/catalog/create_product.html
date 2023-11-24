@@ -1,0 +1,10 @@
+{% extends 'catalog/home.html'%}
+
+{% block content %}
+<!DOCTYPE html>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Создать продукт</button>
+</form>
+{% endblock %}

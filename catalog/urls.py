@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
+from .views import create_product
 
 from .views import ContactsView, CatalogListView, ProductDetailView
 
@@ -24,4 +25,5 @@ urlpatterns = [
                   path('<slug:slug>/', BlogPostDetailView.as_view(), name='detail'),
                   path('<slug:slug>/update/', BlogPostUpdateView.as_view(), name='update'),
                   path('<slug:slug>/delete/', BlogPostDeleteView.as_view(), name='delete'),
+                  path('create/', create_product, name='create_product'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
