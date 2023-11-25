@@ -1,0 +1,26 @@
+{% extends 'catalog/home.html'%}
+
+{% block content %}
+
+<!DOCTYPE html>
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    {{ form.product.label_tag }}
+    {{ form.product }}
+  </div>
+  <div class="form-group">
+    {{ form.version_number.label_tag }}
+    {{ form.version_number }}
+  </div>
+  <div class="form-group">
+    {{ form.version_name.label_tag }}
+    {{ form.version_name }}
+  </div>
+  <div class="form-check">
+    {{ form.is_current.label_tag }}
+    {{ form.is_current }}
+  </div>
+  <button type="submit" class="btn btn-primary">Создать версию</button>
+</form>
+{% endblock %}

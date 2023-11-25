@@ -41,7 +41,7 @@ class Version(models.Model):
     is_current = models.BooleanField(default=False)
 
     class Meta:
-        db_table = 'catalog_version'
+        db_table = 'catalog_version1'
 
 
 class BlogPost(models.Model):

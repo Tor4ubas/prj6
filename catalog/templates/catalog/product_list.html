@@ -1,0 +1,16 @@
+{% extends 'catalog/home.html'%}
+
+{% block content %}
+
+<!DOCTYPE html>
+{% for product in products %}
+  <h2>{{ product.name }}</h2>
+  <p>{{ product.description }}</p>
+
+  {% with active_version=product.version_set.filter(is_current=True).first %}
+    {% if active_version %}
+      <p>Активная версия: {{ active_version.version_number }} - {{ active_version.version_name }}</p>
+    {% endif %}
+  {% endwith %}
+{% endfor %}
+{% endblock %}
