@@ -1,0 +1,24 @@
+{% extends 'catalog/home.html' %}
+
+{% block content %}
+
+<div class="d-flex flex-column align-items-start" style="margin-left: 400px;">
+  <div class="mb-3" style="margin-left: 100px;">
+
+    <a href="{% url 'blog:blog_create' %}" class="btn btn-lg btn-outline-primary" style="width: 200px; height: 50px;">Создать</a>
+  </div>
+  {% for post in posts %}
+    <div class="mb-3">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.content }}</p>
+      <img src="{{ post.preview }}" alt="Превью">
+      <hr>
+      <a href="{% url 'blog:blog_detail' post.pk %}" class="btn btn-lg btn-outline-primary" style="width: 200px; height: 50px;">Просмотр</a>
+      <a href="{% url 'blog:update_post' post.pk %}" class="btn btn-lg btn-outline-primary" style="width: 200px; height: 50px;">Редактирование</a>
+      <a href="{% url 'blog:blog_confirm_delete' post.pk %}" class="btn btn-lg btn-outline-primary" style="width: 200px; height: 50px;">Удаление</a>
+    </div>
+  {% empty %}
+    <p>Нет доступных записей блога.</p>
+  {% endfor %}
+</div>
+{% endblock %}

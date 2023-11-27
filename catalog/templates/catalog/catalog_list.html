@@ -12,9 +12,9 @@
                 </h1><ul class="list-unstyled mt-3 mb-4">
               <li>{{product.name}}</li>
               <li>{{product.description|truncatechars:100}}</li>
-              <li>{{product.category}}</li>
-              <li>дата создания: {{product.date_created}}</li>
-              <li>Дата последнего изменения: {{product.date_updated}}</li>
+
+
+
             </ul>
               <a href="{% url 'catalog:product_detail' pk=product.id %}" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
             </div>

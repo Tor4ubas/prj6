@@ -1,0 +1,16 @@
+{% extends 'catalog/home.html'%}
+
+{% block content %}
+
+
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+<img src="{{ post.preview }}" alt="Превью">
+<p>Дата создания: {{ post.created_at }}</p>
+<p>Просмотры: {{ post.views }}</p>
+{% if post.is_published %}
+  <p>Статус: Опубликовано</p>
+{% else %}
+  <p>Статус: Не опубликовано</p>
+{% endif %}
+{% endblock %}

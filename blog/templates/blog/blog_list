@@ -1,0 +1,14 @@
+{% extends 'catalog/home.html'%}
+
+{% block content %}
+
+
+{% for post in posts %}
+  <h2><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h2>
+  <p>{{ post.content }}</p>
+  <img src="{{ post.preview.url }}" alt="Превью">
+  <hr>
+{% empty %}
+  <p>Нет доступных записей блога.</p>
+{% endfor %}
+{% endblock %}
