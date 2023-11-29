@@ -43,7 +43,7 @@ def product_create(request):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('product_list')
+            return redirect('catalog:catalog_list')
     else:
         form = ProductForm()
-    return render(request, 'catalog/product_create.html', {'form': form})
+    return render(request, 'catalog/create_product.html', {'form': form})

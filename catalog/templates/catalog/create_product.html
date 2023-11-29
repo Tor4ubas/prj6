@@ -1,11 +1,29 @@
 {% extends 'catalog/home.html' %}
 
-{% load mediapath %}
+{% load static %}
 
 {% block content %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Создать</button>
-    </form>
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-left: 400px;
+        }
+        form {
+            /* Дополнительные стили формы, если необходимо */
+        }
+    </style>
+
+    <div class="center">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Создать</button>
+
+
+
+        </form>
+    </div>
 {% endblock %}
