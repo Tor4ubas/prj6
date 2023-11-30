@@ -1,8 +1,9 @@
+from django.db.models import OuterRef, Subquery
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.shortcuts import render, get_object_or_404, redirect
 
-from catalog.models import Product
+from catalog.models import Product, Version
 from catalog.templates.catalog.forms import ProductForm
 
 
@@ -15,6 +16,12 @@ class CatalogListView(ListView):
     model = Product
     template_name = 'catalog/catalog_list.html'
     context_object_name = 'products'
+
+    def get_queryset(self):
+        active_versions = Version.objects.filter(product=OuterRef('pk'), is_active=True)
+        queryset = super().get_queryset()
+        queryset = queryset.annotate(active_version=Subquery(active_versions.values('version_name')[:1]))
+        return queryset
 
 
 class ProductDetailView(DetailView):
