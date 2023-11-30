@@ -3,6 +3,11 @@ from catalog.models import Product, Version
 
 
 class ProductForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
     def clean(self):
         cleaned_data = super().clean()
         name = cleaned_data.get('name')
@@ -23,6 +28,11 @@ class ProductForm(forms.ModelForm):
 
 
 class VersionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
     class Meta:
         model = Version
         fields = ['version_name', 'is_active']
