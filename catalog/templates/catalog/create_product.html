@@ -1,7 +1,5 @@
 {% extends 'catalog/home.html' %}
 
-{% load static %}
-
 {% block content %}
     <style>
         .center {
@@ -11,17 +9,18 @@
             height: 100vh;
             margin-left: 400px;
         }
-
     </style>
 
     <div class="center">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
+
+            <!-- Поле "Добавить версию" -->
+            {{ version_form.as_p }}
+
             <button type="submit">Создать</button>
             <button type="button" onclick="window.location.href='{% url 'catalog:catalog_list' %}'">Отмена</button>
-
-
         </form>
     </div>
 {% endblock %}

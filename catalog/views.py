@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from catalog.models import Product, Version
 from catalog.templates.catalog.forms import ProductForm
+from catalog.templates.catalog.forms import VersionForm
 
 
 class ContactsView(View):
@@ -47,27 +48,35 @@ def product_detail(request, pk):
 
 def product_create(request):
     if request.method == 'POST':
-        form = ProductForm(request.POST, request.FILES)
+        form = ProductForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('catalog:catalog_list')
+            product = form.save()
+            return redirect('catalog:product_detail', pk=product.id)
     else:
         form = ProductForm()
-    return render(request, 'catalog/create_product.html', {'form': form})
+
+    version_form = VersionForm()  # Создаем экземпляр формы для версии
+
+    return render(request, 'catalog/create_product.html', {'form': form, 'version_form': version_form})
 
 
 def product_edit(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
-        # Логика для метода POST (сохранение изменений)
         form = ProductForm(request.POST, instance=product)
-        if form.is_valid():
+        version_form = VersionForm(request.POST)
+        if form.is_valid() and version_form.is_valid():
             form.save()
-            return redirect('catalog:product_detail', pk=product.pk)
+            version = version_form.save(commit=False)
+            version.product = product
+            version.save()
+            return redirect('catalog:product_detail', pk=pk)
     else:
-        # Логика для метода GET (отображение формы редактирования)
         form = ProductForm(instance=product)
-    return render(request, 'catalog/product_edit.html', {'form': form, 'product': product})
+        version_form = VersionForm()
+
+    return render(request, 'catalog/product_edit.html',
+                  {'form': form, 'version_form': version_form, 'product': product})
 
 
 def product_confirm_delete(request, pk):
