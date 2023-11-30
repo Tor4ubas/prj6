@@ -10,4 +10,17 @@
     <p><strong>Дата создания:</strong> {{ product.date_created }}</p>
     <p><strong>Дата обновления:</strong> {{ product.date_updated }}</p>
     <img src="{{ product.img|mediapath }}">
+    <h3>Информация о версии товара</h3>
+    <div class="card-body">
+        <ul>
+            {% for version in product.version_set.all %}
+                <li>{{ version }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <a href="{% url 'catalog:product_edit' pk=product.pk %}">Редактировать продукт</a>
+    <form action="{% url 'catalog:product_confirm_delete' pk=product.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Удалить продукт">
+    </form>
 {% endblock %}

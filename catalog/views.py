@@ -47,3 +47,23 @@ def product_create(request):
     else:
         form = ProductForm()
     return render(request, 'catalog/create_product.html', {'form': form})
+
+
+def product_edit(request, pk):
+    product = Product.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('catalog:product_detail', pk=pk)
+    else:
+        form = ProductForm(instance=product)
+    return render(request, 'catalog/product_edit.html', {'form': form})
+
+
+def product_confirm_delete(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        product.delete()
+        return redirect('catalog:catalog_list')
+    return render(request, 'catalog/product_confirm_delete.html', {'product': product})

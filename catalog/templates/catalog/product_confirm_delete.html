@@ -1,0 +1,13 @@
+{% extends 'catalog/home.html' %}
+
+{% load mediapath %}
+
+{% block content %}
+
+<form method="post" action="{% url 'catalog:product_confirm_delete' product.pk %}">
+  {% csrf_token %}
+  <p>Вы уверены, что хотите удалить продукт "{{ product.name }}"?</p>
+  <button type="submit">Удалить</button>
+  <a href="{% url 'catalog:catalog_list' %}">Отмена</a>
+</form>
+{% endblock %}
