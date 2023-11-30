@@ -1,10 +1,13 @@
 {% extends 'catalog/home.html' %}
 
+{% load mediapath %}
 {% block content %}
-    <h1>Редактирование продукта</h1>
+    <h1>Редактирование продукта {{ product.name }}</h1>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Сохранить изменения">
+        <input type="button" value="Удалить продукт" onclick="window.location.href='{% url 'catalog:product_confirm_delete' pk=product.pk %}'">
+        <input type="button" value="Отмена" onclick="window.location.href='{% url 'catalog:product_detail' pk=product.pk %}'">
     </form>
 {% endblock %}

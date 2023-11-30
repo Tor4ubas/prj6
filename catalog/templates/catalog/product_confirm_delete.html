@@ -8,6 +8,6 @@
   {% csrf_token %}
   <p>Вы уверены, что хотите удалить продукт "{{ product.name }}"?</p>
   <button type="submit">Удалить</button>
-  <a href="{% url 'catalog:catalog_list' %}">Отмена</a>
+  <input type="button" value="Отмена" onclick="window.location.href='{% url 'catalog:product_detail' pk=product.pk %}'">
 </form>
 {% endblock %}

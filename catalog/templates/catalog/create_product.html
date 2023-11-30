@@ -11,9 +11,7 @@
             height: 100vh;
             margin-left: 400px;
         }
-        form {
-            /* Дополнительные стили формы, если необходимо */
-        }
+
     </style>
 
     <div class="center">
@@ -21,8 +19,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Создать</button>
-            <button type="submit">Редактировать</button>
-            <button type="submit">Удалить</button>
+            <button type="button" onclick="window.location.href='{% url 'catalog:catalog_list' %}'">Отмена</button>
 
 
         </form>

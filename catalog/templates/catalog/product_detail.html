@@ -18,9 +18,8 @@
             {% endfor %}
         </ul>
     </div>
-    <a href="{% url 'catalog:product_edit' pk=product.pk %}">Редактировать продукт</a>
-    <form action="{% url 'catalog:product_confirm_delete' pk=product.pk %}" method="POST">
+        <form action="{% url 'catalog:product_edit' pk=product.pk %}" method="POST">
         {% csrf_token %}
-        <input type="submit" value="Удалить продукт">
+        <input type="submit" value="Редактировать продукт">
     </form>
 {% endblock %}

@@ -50,15 +50,17 @@ def product_create(request):
 
 
 def product_edit(request, pk):
-    product = Product.objects.get(pk=pk)
+    product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
+        # Логика для метода POST (сохранение изменений)
         form = ProductForm(request.POST, instance=product)
         if form.is_valid():
             form.save()
-            return redirect('catalog:product_detail', pk=pk)
+            return redirect('catalog:product_detail', pk=product.pk)
     else:
+        # Логика для метода GET (отображение формы редактирования)
         form = ProductForm(instance=product)
-    return render(request, 'catalog/product_edit.html', {'form': form})
+    return render(request, 'catalog/product_edit.html', {'form': form, 'product': product})
 
 
 def product_confirm_delete(request, pk):
