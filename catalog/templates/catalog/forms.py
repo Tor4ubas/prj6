@@ -36,3 +36,4 @@ class VersionForm(forms.ModelForm):
     class Meta:
         model = Version
         fields = ['version_name', 'is_active']
+

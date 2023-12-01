@@ -56,9 +56,18 @@ class Version(models.Model):
     version_number = models.IntegerField(verbose_name='номер версии')
     version_name = models.CharField(max_length=150, verbose_name='название версии')
     is_active = models.BooleanField(default=False, verbose_name='Признак текущей версии')
+    is_current = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.product} - {self.version_name} {self.version_number}'
+
+    def save(self, *args, **kwargs):
+        if self.is_current:
+            current_version = Version.objects.filter(product=self.product, is_current=True).first()
+            if current_version and current_version != self:
+                current_version.is_current = False
+                current_version.save()
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'версия'
