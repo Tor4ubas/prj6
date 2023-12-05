@@ -4,8 +4,8 @@ from django.views.generic import ListView, DetailView
 from django.shortcuts import render, get_object_or_404, redirect
 
 from catalog.models import Product, Version
-from catalog.templates.catalog.forms import ProductForm
-from catalog.templates.catalog.forms import VersionForm
+from catalog.forms import ProductForm
+from catalog.forms import VersionForm
 
 
 class ContactsView(View):
@@ -41,11 +41,6 @@ def product_list(request):
     return render(request, 'catalog/product_list.html', {'products': products})
 
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    return render(request, 'catalog/product_detail.html', {'product': product})
-
-
 def product_create(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
@@ -55,7 +50,7 @@ def product_create(request):
     else:
         form = ProductForm()
 
-    version_form = VersionForm()  # Создаем экземпляр формы для версии
+    version_form = VersionForm()
 
     return render(request, 'catalog/create_product.html', {'form': form, 'version_form': version_form})
 
@@ -71,10 +66,11 @@ def product_edit(request, pk):
             version.product = product
             version.save()
             return redirect('catalog:product_detail', pk=pk)
+        else:
+            print(version_form.errors)
     else:
         form = ProductForm(instance=product)
         version_form = VersionForm()
-
     return render(request, 'catalog/product_edit.html',
                   {'form': form, 'version_form': version_form, 'product': product})
 

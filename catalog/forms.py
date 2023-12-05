@@ -24,7 +24,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['name', 'description', 'img', 'category', 'price', 'date_created', 'date_updated']
+        fields = ['name', 'description', 'img', 'category', 'price',]
 
 
 class VersionForm(forms.ModelForm):
@@ -35,5 +35,5 @@ class VersionForm(forms.ModelForm):
 
     class Meta:
         model = Version
-        fields = ['version_name', 'is_active']
+        fields = ['version_name', 'version_number', 'is_active']
 

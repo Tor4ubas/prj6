@@ -1,0 +1,14 @@
+{% extends 'catalog/home.html' %}
+
+
+{% block content %}
+
+
+<h1>Добавить новую версию для {{ product.name }}</h1>
+<form method="POST" action="{% url 'catalog:version_create' pk=product.id %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Create</button>
+ <input type="button" value="Отмена" onclick="window.location.href='{% url 'catalog:version_list' pk=product.id %}'">
+</form>
+{% endblock %}

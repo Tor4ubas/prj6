@@ -3,23 +3,30 @@
 {% load mediapath %}
 
 {% block content %}
+    <div>
     <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+
+
     <p><strong>Описание:</strong> {{ product.description }}</p>
     <p><strong>Категория:</strong> {{ product.category.name }}</p>
     <p><strong>Стоимость:</strong> ${{ product.price }}</p>
     <p><strong>Дата создания:</strong> {{ product.date_created }}</p>
     <p><strong>Дата обновления:</strong> {{ product.date_updated }}</p>
     <img src="{{ product.img|mediapath }}">
-    <h3>Информация о версии товара</h3>
-    <div class="card-body">
-        <ul>
-            {% for version in product.version_set.all %}
-                <li>{{ version }}</li>
-            {% endfor %}
-        </ul>
+    <input type="submit" value="Редактировать продукт">
     </div>
+    <div>
+      <h3>Информация о версии товара</h3>
+      {% for version in product.version_set.all %}
+                <li>{{ version }}</li>
+      {% endfor %}
+
+      <a href="{% url 'catalog:version_list' pk=product.id %}">Управление версиями</a>
+    </div>
+      <a href="{% url 'catalog:catalog_list' %}">Назад</a>
         <form action="{% url 'catalog:product_edit' pk=product.pk %}" method="POST">
         {% csrf_token %}
-        <input type="submit" value="Редактировать продукт">
+
     </form>
 {% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'catalog/home.html' %}
+
+
+{% block content %}
+<h1>Activate Version</h1>
+<p>Are you sure you want to activate this version?</p>
+<form method="POST" action="{% url 'catalog:version_active' pk=version.id %}">
+  {% csrf_token %}
+  <button type="submit">Activate</button>
+</form>
+{% endblock %}

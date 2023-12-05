@@ -1,0 +1,21 @@
+
+{% extends 'catalog/home.html' %}
+
+{% block content %}
+  <h3>Информация о версии товара</h3>
+  <div class="card-body">
+    <ul>
+      {% for version in versions %}
+        <li>{{ version.name }} {% if version.is_active %}(Активная){% endif %}</li>
+        <li>{{ version }}</li>
+        <li><a href="{% url 'catalog:version_delete' pk=version.id %}">Удалить версию</a></li>
+      {% empty %}
+        <li>Нет доступных версий.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div>
+    <a href="{% url 'catalog:version_create' pk=product.id %}" style="display: inline-block; margin-right: 10px;">Добавить новую версию</a>
+    <a href="{% url 'catalog:product_detail' pk=product.id %}" style="display: inline-block;">Назад</a>
+  </div>
+{% endblock %}
