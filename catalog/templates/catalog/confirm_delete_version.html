@@ -6,6 +6,7 @@
   <form method="POST" action="{% url 'catalog:version_delete' pk=version.id %}">
     {% csrf_token %}
     <input type="submit" value="Удалить">
-  </form>
-  <input type="button" value="Отмена" onclick="window.location.href='{% url 'catalog:version_list' pk=product.id %}'">
+    <button onclick="window.location.href='{% url 'catalog:version_list' pk=version.product.pk %}'">Назад</button>
 {% endblock %}
+  </form>
+

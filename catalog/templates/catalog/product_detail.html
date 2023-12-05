@@ -18,9 +18,11 @@
     </div>
     <div>
       <h3>Информация о версии товара</h3>
-      {% for version in product.version_set.all %}
-                <li>{{ version }}</li>
-      {% endfor %}
+        {% for version in product.version_set.all %}
+            {% if version.is_active %}
+                <p><strong>Активная версия</strong> {{ version.name }}</p>
+            {% endif %}
+        {% endfor %}
 
       <a href="{% url 'catalog:version_list' pk=product.id %}">Управление версиями</a>
     </div>
