@@ -17,19 +17,30 @@ def version_create(request, pk):
             version = form.save(commit=False)
             version.product = product
             version.save()
+            is_active = form.cleaned_data.get('is_active', False)
+            if is_active:
+                Version.objects.filter(product=product).exclude(id=version.id).update(is_active=False)
+                version.set_active = True
+                version.save()
             return redirect('catalog:version_list', pk=pk)
     else:
         form = VersionForm()
     return render(request, 'catalog/version_create.html', {'form': form, 'product': product})
 
 
-def version_active(request, version_id):
+def version_active(version_id):
     version = get_object_or_404(Version, pk=version_id)
     product = version.product
+
     # Установка активной версии
     product.version_set.filter(is_active=True).exclude(pk=version_id).update(is_active=False)
+
     version.is_active = True
     version.save()
+
+    # Сохранение изменений в объекте продукта
+    product.save()
+
     return redirect('catalog:version_list', product_id=product.id)
 
 

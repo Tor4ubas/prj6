@@ -28,6 +28,8 @@ class ProductForm(forms.ModelForm):
 
 
 class VersionForm(forms.ModelForm):
+    set_active = forms.BooleanField(required=False, initial=False, label='Активная версия')
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():

@@ -8,6 +8,8 @@
 <form method="POST" action="{% url 'catalog:version_create' pk=product.id %}">
   {% csrf_token %}
   {{ form.as_p }}
+  <label for="id_set_active">Активная версия</label>
+  <input type="checkbox" name="set_active" id="id_set_active">
   <button type="submit">Create</button>
  <input type="button" value="Отмена" onclick="window.location.href='{% url 'catalog:version_list' pk=product.id %}'">
 </form>
