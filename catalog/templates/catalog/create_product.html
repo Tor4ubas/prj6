@@ -1,6 +1,7 @@
 {% extends 'catalog/home.html' %}
 
 {% block content %}
+
     <style>
         .center {
             display: flex;
@@ -14,10 +15,11 @@
     </style>
 
     <div class="center">
+
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            {{ version_form.as_p }}
+
 
             <button type="submit">Создать</button>
             <button type="button" onclick="window.location.href='{% url 'catalog:catalog_list' %}'">Отмена</button>

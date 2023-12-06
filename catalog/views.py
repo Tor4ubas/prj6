@@ -41,6 +41,19 @@ def product_list(request):
     return render(request, 'catalog/product_list.html', {'products': products})
 
 
+from django.shortcuts import render, get_object_or_404, redirect
+from catalog.models import Product
+
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    active_version = product.version_set.filter(is_active=True).first()
+    versions = product.version_set.all()
+
+    return render(request, 'catalog/product_detail.html',
+                  {'product': product, 'active_version': active_version, 'versions': versions})
+
+
 def product_create(request):
     if request.method == 'POST':
         form = ProductForm(request.POST)
@@ -57,23 +70,17 @@ def product_create(request):
 
 def product_edit(request, pk):
     product = get_object_or_404(Product, pk=pk)
+
     if request.method == 'POST':
-        form = ProductForm(request.POST, instance=product)
-        version_form = VersionForm(request.POST)
-        if form.is_valid() and version_form.is_valid():
+        form = ProductForm(request.POST or None, instance=product)
+
+        if form.is_valid():
             form.save()
-            version = version_form.save(commit=False)
-            version.product = product
-            version.save()
             return redirect('catalog:product_detail', pk=pk)
-        else:
-            print(version_form.errors)
     else:
         form = ProductForm(instance=product)
-        version_form = VersionForm()
-    return render(request, 'catalog/product_edit.html',
-                  {'form': form, 'version_form': version_form, 'product': product})
 
+    return render(request, 'catalog/product_edit.html', {'form': form, 'product': product})
 
 def product_confirm_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)

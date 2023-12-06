@@ -4,31 +4,28 @@
 
 {% block content %}
     <div>
-    <h1>{{ product.name }}</h1>
-    <p>{{ product.description }}</p>
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
 
-
-    <p><strong>Описание:</strong> {{ product.description }}</p>
-    <p><strong>Категория:</strong> {{ product.category.name }}</p>
-    <p><strong>Стоимость:</strong> ${{ product.price }}</p>
-    <p><strong>Дата создания:</strong> {{ product.date_created }}</p>
-    <p><strong>Дата обновления:</strong> {{ product.date_updated }}</p>
-    <img src="{{ product.img|mediapath }}">
-    <input type="submit" value="Редактировать продукт">
+        <p><strong>Описание:</strong> {{ product.description }}</p>
+        <p><strong>Категория:</strong> {{ product.category.name }}</p>
+        <p><strong>Стоимость:</strong> ${{ product.price }}</p>
+        <p><strong>Дата создания:</strong> {{ product.date_created }}</p>
+        <p><strong>Дата обновления:</strong> {{ product.date_updated }}</p>
+        <img src="{{ product.img|mediapath }}">
+        <form action="{% url 'catalog:product_edit' pk=product.pk %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" name="edit" value="Редактировать продукт">
+        </form>
     </div>
     <div>
-      <h3>Информация о версии товара</h3>
+        <h3>Информация о версии товара</h3>
         {% for version in product.version_set.all %}
             {% if version.is_active %}
                 <p><strong>Активная версия</strong> {{ version.name }}</p>
             {% endif %}
         {% endfor %}
-
-      <a href="{% url 'catalog:version_list' pk=product.id %}">Управление версиями</a>
+        <a href="{% url 'catalog:version_list' pk=product.id %}">Управление версиями</a>
     </div>
-      <a href="{% url 'catalog:catalog_list' %}">Назад</a>
-        <form action="{% url 'catalog:product_edit' pk=product.pk %}" method="POST">
-        {% csrf_token %}
-
-    </form>
+    <a href="{% url 'catalog:catalog_list' %}">Назад</a>
 {% endblock %}

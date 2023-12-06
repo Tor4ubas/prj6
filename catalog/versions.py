@@ -28,7 +28,7 @@ def version_create(request, pk):
     return render(request, 'catalog/version_create.html', {'form': form, 'product': product})
 
 
-def version_active(version_id):
+def version_active(request, version_id):
     version = get_object_or_404(Version, pk=version_id)
     product = version.product
 

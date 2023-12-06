@@ -1,13 +1,12 @@
 {% extends 'catalog/home.html' %}
-
 {% load mediapath %}
-
 {% block content %}
     <h1>Редактирование продукта {{ product.name }}</h1>
-    <form method="post" action="{% url 'catalog:product_edit' pk=product.pk %}">
+    <form method="post" action="{% url 'catalog:product_edit' pk=product.id %}">
         {% csrf_token %}
+
         {{ version_form.version_name.label_tag }} {{ version_form.version_name }} {{version_form.version_number}}
-        <input type="checkbox" name="img-clear" id="img-clear_id">Текущая версия
+
 
         {{ form.as_p }}
         <input type="submit" value="Сохранить изменения" >
