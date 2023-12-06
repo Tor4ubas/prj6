@@ -1,4 +1,3 @@
-
 {% extends 'catalog/home.html' %}
 
 {% block content %}
@@ -6,9 +5,17 @@
   <div class="card-body">
     <ul>
       {% for version in versions %}
-        <li>{{ version.name }} {% if version.is_active %}(Активная){% endif %}</li>
+        <li>
+          {{ version.name }}
+          {% if version.is_active %}
+            (Активная)
+          {% else %}
+
+          {% endif %}
+        </li>
         <li>{{ version }}</li>
         <li><a href="{% url 'catalog:version_delete' pk=version.id %}">Удалить версию</a></li>
+        <a href="{% url 'catalog:make_active' pk=version.id %}">Сделать активной</a>
       {% empty %}
         <li>Нет доступных версий.</li>
       {% endfor %}

@@ -28,7 +28,7 @@ class ProductForm(forms.ModelForm):
 
 
 class VersionForm(forms.ModelForm):
-    set_active = forms.BooleanField(required=False, initial=False, label='Активная версия')
+    #set_active = forms.BooleanField(required=False, initial=False, label='Активная версия')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -37,5 +37,5 @@ class VersionForm(forms.ModelForm):
 
     class Meta:
         model = Version
-        fields = ['version_name', 'version_number', 'is_active']
+        fields = ['version_name', 'version_number']
 

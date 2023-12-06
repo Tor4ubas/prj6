@@ -11,24 +11,26 @@ def version_list(request, pk):
 
 def version_create(request, pk):
     product = get_object_or_404(Product, pk=pk)
+
     if request.method == 'POST':
         form = VersionForm(request.POST)
+
         if form.is_valid():
             version = form.save(commit=False)
             version.product = product
+            if request.POST.get('is_active'):
+                product.version_set.update(is_active=False)
+                version.is_active = True
             version.save()
-            is_active = form.cleaned_data.get('is_active', False)
-            if is_active:
-                Version.objects.filter(product=product).exclude(id=version.id).update(is_active=False)
-                version.set_active = True
-                version.save()
+
             return redirect('catalog:version_list', pk=pk)
     else:
         form = VersionForm()
+
     return render(request, 'catalog/version_create.html', {'form': form, 'product': product})
 
 
-def version_active(request, version_id):
+def version_active(version_id):
     version = get_object_or_404(Version, pk=version_id)
     product = version.product
 
@@ -61,3 +63,17 @@ def version_delete(request, pk):
         return redirect('catalog:version_list', pk=version.product.id)
 
     return render(request, 'catalog/confirm_delete_version.html', {'version': version})
+
+
+def make_active(request, pk):
+    version = get_object_or_404(Version, pk=pk)
+    product = version.product
+
+    # Сбрасываем активный флаг для всех версий продукта
+    product.version_set.update(is_active=False)
+
+    # Устанавливаем активный флаг для выбранной версии
+    version.is_active = True
+    version.save()
+
+    return redirect('catalog:version_list', pk=product.id)

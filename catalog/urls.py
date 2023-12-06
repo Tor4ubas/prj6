@@ -20,5 +20,6 @@ urlpatterns = [
                   path('product/<int:pk>/versions/create/', versions.version_create, name='version_create'),
                   path('versions/<int:pk>/activate/', versions.version_active, name='version_active'),
                   path('versions/<int:pk>/version_delete/', versions.version_delete, name='version_delete'),
-                  path('versions/<int:pk>/versions/confirm_delete_version/', versions.confirm_delete_version, name='confirm_delete_version')
+                  path('versions/<int:pk>/versions/confirm_delete_version/', versions.confirm_delete_version, name='confirm_delete_version'),
+                  path('version/make_active/<int:pk>/', versions.make_active, name='make_active'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
