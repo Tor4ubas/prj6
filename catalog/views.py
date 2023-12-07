@@ -69,8 +69,8 @@ def product_edit(request, pk):
     print('Product:', product)
     print('Request method:', request.method)
 
-    if request.method == 'GET':
-        form = ProductForm(request.GET, instance=product)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
         if form.is_valid():
             form.save()
             return redirect('catalog:product_detail', pk=pk)
