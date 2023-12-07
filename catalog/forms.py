@@ -3,10 +3,14 @@ from catalog.models import Product, Version
 
 
 class ProductForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs.update({'class': 'form-control'})
+#    class Meta:
+#        model = Product
+#        fields = '__all__'
+
+    #def __init__(self, *args, **kwargs):
+    #    super().__init__(*args, **kwargs)
+    #    for field in self.fields.values():
+    #        field.widget.attrs.update({'class': 'form-control'})
 
     def clean(self):
         cleaned_data = super().clean()
@@ -22,13 +26,16 @@ class ProductForm(forms.ModelForm):
         if description and any(word in description.lower() for word in forbidden_words):
             self.add_error('description', 'Недопустимые слова в описании продукта')
 
+#    class Meta:
+#        model = Product
+#        fields = ['name', 'description', 'img', 'category', 'price', ]
     class Meta:
         model = Product
-        fields = ['name', 'description', 'img', 'category', 'price',]
+        fields = '__all__'
 
 
 class VersionForm(forms.ModelForm):
-    #set_active = forms.BooleanField(required=False, initial=False, label='Активная версия')
+    # set_active = forms.BooleanField(required=False, initial=False, label='Активная версия')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -39,3 +46,7 @@ class VersionForm(forms.ModelForm):
         model = Version
         fields = ['version_name', 'version_number']
 
+# class ProductFormError(forms.ModelForm):
+#   class Meta:
+#      model = Product
+#        fields = '__all__'

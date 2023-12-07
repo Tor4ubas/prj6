@@ -41,10 +41,6 @@ def product_list(request):
     return render(request, 'catalog/product_list.html', {'products': products})
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from catalog.models import Product
-
-
 def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     active_version = product.version_set.filter(is_active=True).first()
@@ -70,17 +66,21 @@ def product_create(request):
 
 def product_edit(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    print('Product:', product)
+    print('Request method:', request.method)
 
-    if request.method == 'POST':
-        form = ProductForm(request.POST or None, instance=product)
-
+    if request.method == 'GET':
+        form = ProductForm(request.GET, instance=product)
         if form.is_valid():
             form.save()
             return redirect('catalog:product_detail', pk=pk)
     else:
         form = ProductForm(instance=product)
 
+    print('Form:', form)
+
     return render(request, 'catalog/product_edit.html', {'form': form, 'product': product})
+
 
 def product_confirm_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)
