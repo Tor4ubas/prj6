@@ -11,7 +11,7 @@ from django.views import View
 from django.views.generic import CreateView, UpdateView
 
 from config import settings
-from user_app.forms import UserRegisterForm, UserForm
+from user_app.forms import UserForm, UserRegisterForm
 from user_app.models import User
 
 
@@ -27,11 +27,10 @@ class RegisterView(CreateView):
     model = User
     form_class = UserRegisterForm
     template_name = 'user_app/register.html'
-
+    success_url = reverse_lazy('user_app:login')
     token = None
 
     def form_valid(self, form):
-
         new_user = form.save()
 
         if new_user.is_verified is False:
@@ -46,6 +45,7 @@ class RegisterView(CreateView):
 
             self.token = user_token
 
+            # Отправка письма
             send_mail(
                 subject='Поздравляем с регистрацией',
                 message=f'Вы зарегистрировались на нашей платформе!'
@@ -65,9 +65,6 @@ def user_token_verification():
 
 
 def register_confirm(request, token):
-    """
-    Не получилось реализовать. Как автоматически залогинить пользователя?
-    """
     user_info = token
 
     print(user_info)
