@@ -15,6 +15,8 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+    from django.core.cache import cache
+    cache.clear()
     execute_from_command_line(sys.argv)
 
 

@@ -13,7 +13,7 @@
         <p><strong>Дата создания:</strong> {{ product.date_created }}</p>
         <p><strong>Дата обновления:</strong> {{ product.date_updated }}</p>
         <img src="{{ product.img|mediapath }}">
-        <form action="{% url 'catalog:product_edit' pk=product.pk %}" method="POST">
+        <form action="{% url 'catalog:product_edit' pk=product.pk %}" method="GET">
             {% csrf_token %}
             <input type="submit" name="edit" value="Редактировать продукт">
         </form>

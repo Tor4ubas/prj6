@@ -71,8 +71,8 @@ def product_create(request):
 def product_edit(request, pk):
     product = get_object_or_404(Product, pk=pk)
 
-    if request.method == 'GET':
-        form = ProductForm(request.GET or None, instance=product)
+    if request.method == 'POST':
+        form = ProductForm(request.POST or None, instance=product)
 
         if form.is_valid():
             form.save()
