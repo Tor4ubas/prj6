@@ -15,7 +15,9 @@
         <img src="{{ product.img|mediapath }}">
         <form action="{% url 'catalog:product_edit' pk=product.pk %}" method="GET">
             {% csrf_token %}
-            <input type="submit" name="edit" value="Редактировать продукт">
+            {% if user.is_authenticated %}
+               <input type="submit" name="edit" value="Редактировать продукт">
+            {% endif %}
         </form>
     </div>
     <div>
@@ -25,7 +27,9 @@
                 <p><strong>Активная версия</strong> {{ version.name }}</p>
             {% endif %}
         {% endfor %}
-        <a href="{% url 'catalog:version_list' pk=product.id %}">Управление версиями</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'catalog:version_list' pk=product.id %}">Управление версиями</a>
+        {% endif %}
     </div>
     <a href="{% url 'catalog:catalog_list' %}">Назад</a>
 {% endblock %}

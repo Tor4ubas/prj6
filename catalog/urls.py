@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from . import views, versions
-from .views import ContactsView, CatalogListView, ProductDetailView
+from .views import ContactsView, CatalogListView, ProductDetailView, ProductCreateView, ProductEditView
 
 app_name = 'catalog'
 
@@ -12,8 +12,8 @@ urlpatterns = [
                   path('contacts/', ContactsView.as_view(), name='contacts'),
                   path('catalog/', CatalogListView.as_view(), name='catalog_list'),
                   path('product/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
-                  path('create/', views.product_create, name='create_product'),
-                  path('product/<int:pk>/edit/', views.product_edit, name='product_edit'),
+                  path('create/', ProductCreateView.as_view(), name='create_product'),
+                  path('product/<int:pk>/edit/', ProductEditView.as_view(), name='product_edit'),
                   path('product/<int:pk>/delete/', views.product_confirm_delete, name='product_confirm_delete'),
                   # path('create_product/', views.create_product, name='create_product'),
                   path('product/<int:pk>/versions/', versions.version_list, name='version_list'),
