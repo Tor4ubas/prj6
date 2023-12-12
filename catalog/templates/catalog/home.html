@@ -63,6 +63,7 @@
       <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'catalog:contacts' %}">Контакты</a>
       {% if user.is_authenticated %}
           <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'user_app:logout' %}">Выйти</a>
+          <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'user_app:profile' %}">Профиль</a>
       {% else %}
           <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'user_app:register' %}">Регистрация</a>
           <a class="me-3 py-2 text-dark text-decoration-none" href="{% url 'user_app:login' %}">Войти</a>

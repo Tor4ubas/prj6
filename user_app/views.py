@@ -1,6 +1,7 @@
 import random
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.core.mail import send_mail
@@ -44,17 +45,16 @@ class RegisterView(CreateView):
             )
 
             self.token = user_token
+        # Отправка письма
+        send_mail(
+            subject='Поздравляем с регистрацией',
+            message=f'Вы зарегистрировались на нашей платформе!'
+                    f'\n\nВаш код верификации: {user_token}'
+                    f'\n\nИли перейдите по ссылке {confirm_link}',
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[new_user.email])
 
-            # Отправка письма
-            send_mail(
-                subject='Поздравляем с регистрацией',
-                message=f'Вы зарегистрировались на нашей платформе!'
-                        f'\n\nВаш код верификации: {user_token}'
-                        f'\n\nИли перейдите по ссылке {confirm_link}',
-                from_email=settings.EMAIL_HOST_USER,
-                recipient_list=[new_user.email]
-            )
-            return super().form_valid(form)
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('user_app:verified_email')
@@ -121,3 +121,7 @@ def generate_new_password(request):
     )
 
     return redirect(reverse('user_app:login'))
+
+
+
+

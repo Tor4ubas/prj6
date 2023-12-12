@@ -1,7 +1,3 @@
-{% extends 'catalog/home.html' %}
-
-{% block content %}
-
 <div class="row">
     <div class="col-3"></div>
     <div class="col-6">
@@ -15,10 +11,8 @@
                 </form>
             </div>
             <div class="card-footer">
-                <a href="{% url 'users:generate_new_password' %}" class="btn btn-danger">Сгенерировать пароль</a>
+                <a href="{% url 'user_app:generate_new_password' %}" class="btn btn-danger">Сгенерировать пароль</a>
             </div>
         </div>
     </div>
 </div>
-
-{% endblock %}
