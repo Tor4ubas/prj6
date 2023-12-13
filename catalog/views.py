@@ -1,10 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import OuterRef, Subquery
-from django.urls import reverse_lazy
+
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from django.shortcuts import render, get_object_or_404, redirect
-from django.forms import inlineformset_factory
+
 
 from catalog.models import Product, Version
 from catalog.forms import ProductForm
@@ -80,35 +80,19 @@ class ProductEditView(LoginRequiredMixin, View):
     def get(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
         form = self.form_class(instance=product)
-        VersionFormSet = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
-        formset = VersionFormSet(instance=product)
-        return render(request, self.template_name, {'form': form, 'product': product, 'formset': formset})
+        return render(request, self.template_name, {'form': form, 'product': product})
 
     def post(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
         form = self.form_class(request.POST or None, instance=product)
-        VersionFormSet = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
-        formset = VersionFormSet(request.POST or None, instance=product)
 
-        if form.is_valid() and formset.is_valid():
-            form.save()
-            formset.save()
+        if form.is_valid():
+            product = form.save(commit=False)
+            # product.is_published = request.POST.get('is_published') == 'on'  # Обновление статуса публикации
+            product.save()
             return redirect('catalog:product_detail', pk=pk)
 
-        return render(request, self.template_name, {'form': form, 'product': product, 'formset': formset})
-
-    def form_valid(self, form):
-        context_data = self.get_context_data()
-        formset = context_data['formset']
-        self.object = form.save()
-
-        if formset.is_valid():
-            formset.instance = self.object
-            formset.save()
-
-            form.instance.user = self.request.user
-
-            return super().form_valid(form)
+        return render(request, self.template_name, {'form': form, 'product': product})
 
 
 def product_confirm_delete(request, pk):
