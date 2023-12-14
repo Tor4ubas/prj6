@@ -5,11 +5,11 @@
     <form method="post" action="{% url 'catalog:product_edit' pk=product.id %}">
         {% csrf_token %}
 
-        {{ version_form.version_name.label_tag }} {{ version_form.version_name }} {{version_form.version_number}}
+        {{ version_form.version_name.label_tag }} {{ version_form.version_name }} {{version_form.version_number}} {{ form.published_status.label_tag }} {{ form.published_status }}
 
 
         {{ form.as_p }}
-        <input type="submit" value="Сохранить изменения" >
+        <input type="submit" value="Сохранить изменения">
         <input type="button" value="Удалить продукт" onclick="window.location.href='{% url 'catalog:product_confirm_delete' pk=product.pk %}'">
         <input type="button" value="Отмена" onclick="window.location.href='{% url 'catalog:product_detail' pk=product.pk %}'">
     </form>

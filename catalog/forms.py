@@ -3,6 +3,13 @@ from catalog.models import Product, Version
 
 
 class ProductForm(forms.ModelForm):
+    PUBLICATION_CHOICES = (
+        ('draft', 'Черновик'),
+        ('published', 'Опубликовано'),
+    )
+
+    publication_status = forms.ChoiceField(label='Статус публикации', choices=PUBLICATION_CHOICES)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
@@ -24,7 +31,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ['name', 'description', 'img', 'category', 'price',]
+        fields = ['name', 'description', 'img', 'category', 'price', 'publication_status']
 
 
 class VersionForm(forms.ModelForm):
@@ -38,4 +45,3 @@ class VersionForm(forms.ModelForm):
     class Meta:
         model = Version
         fields = ['version_name', 'version_number']
-

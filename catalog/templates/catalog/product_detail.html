@@ -30,6 +30,11 @@
         {% if user.is_authenticated %}
           <a href="{% url 'catalog:version_list' pk=product.id %}">Управление версиями</a>
         {% endif %}
+        {% if product.is_published %}
+           <p>Опубликовано</p>
+        {% else %}
+           <p>Черновик</p>
+        {% endif %}
     </div>
     <a href="{% url 'catalog:catalog_list' %}">Назад</a>
 {% endblock %}

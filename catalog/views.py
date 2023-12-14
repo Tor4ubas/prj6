@@ -1,10 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import OuterRef, Subquery
-
+#from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from django.shortcuts import render, get_object_or_404, redirect
-
+#from django.forms import inlineformset_factory
 
 from catalog.models import Product, Version
 from catalog.forms import ProductForm
@@ -79,16 +79,28 @@ class ProductEditView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
+
+        # Проверяем, является ли текущий пользователь владельцем продукта
+        if product.owner != request.user:
+            return render(request, 'catalog/error.html', {'message': 'Вы не имеете прав для редактирования'})
+
         form = self.form_class(instance=product)
         return render(request, self.template_name, {'form': form, 'product': product})
 
     def post(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
+
+        # Проверяем, является ли текущий пользователь владельцем продукта
+        if product.owner != request.user:
+            return render(request, 'error.html', {'message': 'You are not the owner of this product.'})
+
         form = self.form_class(request.POST or None, instance=product)
 
         if form.is_valid():
             product = form.save(commit=False)
-            # product.is_published = request.POST.get('is_published') == 'on'  # Обновление статуса публикации
+            publication_status = request.POST.get('publication_status')
+            print(publication_status)  # Отладочный вывод
+            product.is_published = publication_status == 'published'  # Обновление статуса публикации
             product.save()
             return redirect('catalog:product_detail', pk=pk)
 

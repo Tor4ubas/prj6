@@ -34,7 +34,7 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         new_user = form.save()
 
-        if new_user.is_verified is False:
+        if new_user.is_active is False:
             user_token = user_token_verification()
             form.instance.code_verification = user_token
 
@@ -72,7 +72,7 @@ def register_confirm(request, token):
     if user_id := user_info:
         print(user_id)
         user = get_object_or_404(User, code_verification=user_id)
-        user.is_verified = True
+        user.is_active = True
         user.save()
         return redirect(to=reverse_lazy("user_app:login"))
     else:
@@ -90,8 +90,8 @@ class VerifiedEmailView(View):
         User = get_user_model()
         try:
             user = User.objects.get(code_verification=verification_code)
-            if not user.is_verified:
-                user.is_verified = True
+            if not user.is_active:
+                user.is_active = True
                 user.save()
                 return redirect('user_app:login')
         except User.DoesNotExist:
@@ -121,7 +121,3 @@ def generate_new_password(request):
     )
 
     return redirect(reverse('user_app:login'))
-
-
-
-
